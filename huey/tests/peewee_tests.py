@@ -17,17 +17,22 @@ huey = Huey(queue, data_store, schedule=schedule)
 
 STATE = []
 
+
 class MockSqliteDatabase(SqliteDatabase):
     def record_call(fn):
         def inner(*args, **kwargs):
             STATE.append(fn.__name__)
             return fn(*args, **kwargs)
+
         return inner
+
     connect = record_call(SqliteDatabase.connect)
     _close = record_call(SqliteDatabase._close)
     transaction = record_call(SqliteDatabase.transaction)
 
+
 db = MockSqliteDatabase('test.huey.db')
+
 
 class Value(Model):
     data = CharField()
@@ -40,9 +45,11 @@ class Value(Model):
         STATE.append('create')
         return super(Value, cls).create(*args, **kwargs)
 
+
 @db_task(huey, db)
 def test_db_task(val):
     return Value.create(data=val)
+
 
 class TestPeeweeHelpers(unittest.TestCase):
     def setUp(self):

@@ -287,7 +287,7 @@ It is possible to prevent tasks from executing.  This applies to normal tasks,
 tasks scheduled in the future, and periodic tasks.
 
 .. note:: In order to "revoke" tasks you will need to specify a ``result_store``
-    when instantiating your :py:class:`Huey` object.
+when instantiating your :py:class:`Huey` object.
 
 Canceling a normal task or one scheduled in the future
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -385,4 +385,4 @@ on other aspects of the API:
 Also check out the :ref:`notes on running the consumer <consuming-tasks>`.
 
 .. note::
-    If you're using Django, check out the :ref:`django integration <django>`.
+If you're using Django, check out the :ref:`django integration <django>`.

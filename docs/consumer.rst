@@ -28,7 +28,7 @@ work around this:
 3. Create a wrapper and hack ``sys.path``.
 
 .. warning::
-    If you plan to use `supervisord <http://supervisord.org/>`_ to manage your consumer process, be sure that you are running the consumer directly and without any intermediary shell scripts. Shell script wrappers interfere with supervisor's ability to terminate and restart the consumer Python process. For discussion see `GitHub issue 88 <https://github.com/coleifer/huey/issues/88>`_.
+If you plan to use `supervisord <http://supervisord.org/>`_ to manage your consumer process, be sure that you are running the consumer directly and without any intermediary shell scripts. Shell script wrappers interfere with supervisor's ability to terminate and restart the consumer Python process. For discussion see `GitHub issue 88 <https://github.com/coleifer/huey/issues/88>`_.
 
 Options for the consumer
 ------------------------

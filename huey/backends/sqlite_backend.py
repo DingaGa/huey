@@ -7,6 +7,7 @@ Inspired from a snippet by Thiago Arruda [1]
 import json
 import sqlite3
 import time
+
 try:
     from thread import get_ident
 except ImportError:  # Python 3
@@ -101,7 +102,7 @@ class SqliteQueue(BaseQueue):
 
     def flush(self):
         with self._db.get_connection() as conn:
-            conn.execute(self._flush.format(self.queue_name,))
+            conn.execute(self._flush.format(self.queue_name, ))
 
     def __len__(self):
         with self._db.get_connection() as conn:

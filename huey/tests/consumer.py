@@ -36,9 +36,11 @@ def modify_state(k, v):
     state[k] = v
     return v
 
+
 @test_huey.task()
 def blow_up():
     raise Exception('blowed up')
+
 
 @test_huey.task(retries=3)
 def retry_command(k, always_fail=True):
@@ -48,6 +50,7 @@ def retry_command(k, always_fail=True):
         raise Exception('fappsk')
     return state[k]
 
+
 @test_huey.task(retries=3, retry_delay=10)
 def retry_command_slow(k, always_fail=True):
     if k not in state:
@@ -55,6 +58,7 @@ def retry_command_slow(k, always_fail=True):
             state[k] = 'fixed'
         raise Exception('fappsk')
     return state[k]
+
 
 @test_huey.periodic_task(crontab(minute='0'))
 def every_hour():
@@ -181,13 +185,13 @@ class ConsumerTestCase(unittest.TestCase):
                 self.assertStatusTask([
                     ('enqueued', task, {}),
                     ('retrying', task, {}),
-                    ('error', task,{}),
+                    ('error', task, {}),
                     ('started', task, {}),
                 ])
                 last_idx = -2
             else:
                 self.assertStatusTask([
-                    ('error', task,{}),
+                    ('error', task, {}),
                     ('started', task, {}),
                 ])
                 last_idx = -1
@@ -347,8 +351,8 @@ class ConsumerTestCase(unittest.TestCase):
         self.assertFalse(test_huey.is_revoked(r4.task))
 
         expected = [
-            #state,        schedule
-            ({},           0),
+            # state,        schedule
+            ({}, 0),
             ({'k2': 'v2'}, 0),
             ({'k2': 'v2'}, 1),
             ({'k2': 'v2'}, 2),
@@ -378,6 +382,7 @@ class ConsumerTestCase(unittest.TestCase):
 
     def test_revoking_periodic(self):
         global state
+
         def loop_periodic(ts):
             self.consumer.periodic_t.loop(ts)
             for i in range(len(test_queue._queue)):

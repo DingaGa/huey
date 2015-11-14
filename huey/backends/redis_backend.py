@@ -28,6 +28,7 @@ class RedisQueue(BaseQueue):
     """
     A simple Queue that uses the redis to store messages
     """
+
     def __init__(self, name, **connection):
         """
         connection = {
@@ -98,6 +99,7 @@ if #res and redis.call('zremrangebyscore', key, '-inf', unix_ts) == #res then
     return res
 end
 """
+
 
 class RedisSchedule(BaseSchedule):
     def __init__(self, name, **connection):

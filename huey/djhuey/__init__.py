@@ -44,6 +44,7 @@ For more granular control, you can assign HUEY programmatically:
 HUEY = Huey(RedisBlockingQueue('my-queue'))
 """
 
+
 def default_queue_name():
     try:
         return settings.DATABASE_NAME
@@ -52,11 +53,13 @@ def default_queue_name():
     except KeyError:
         return 'huey'
 
+
 def config_error(msg):
     print(configuration_message)
     print('\n\n')
     print(msg)
     sys.exit(1)
+
 
 def dynamic_import(obj, key, required=False):
     try:
@@ -69,6 +72,7 @@ def dynamic_import(obj, key, required=False):
         return load_class(path + '.Components')
     except ImportError:
         config_error('Unable to import %s: "%s"' % (key, path))
+
 
 try:
     HUEY = getattr(settings, 'HUEY', None)
@@ -98,22 +102,29 @@ if not isinstance(HUEY, Huey):
 task = HUEY.task
 periodic_task = HUEY.periodic_task
 
+
 def close_db(fn):
     """Decorator to be used with tasks that may operate on the database."""
+
     @wraps(fn)
     def inner(*args, **kwargs):
         try:
             return fn(*args, **kwargs)
         finally:
             connection.close()
+
     return inner
+
 
 def db_task(*args, **kwargs):
     def decorator(fn):
         return task(*args, **kwargs)(close_db(fn))
+
     return decorator
+
 
 def db_periodic_task(*args, **kwargs):
     def decorator(fn):
         return periodic_task(*args, **kwargs)(close_db(fn))
+
     return decorator

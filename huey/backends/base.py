@@ -81,6 +81,7 @@ class BaseDataStore(object):
     """
     Base implementation for a data store
     """
+
     def __init__(self, name, **connection):
         """
         Initialize the data store

@@ -34,14 +34,17 @@ last_executed_task_class = []
 def add(key, value):
     state[key] = value
 
+
 @huey.task(include_task=True)
 def self_aware(key, value, task=None):
     last_executed_task_class.append(task.__class__.__name__)
+
 
 # create a periodic queue command
 @huey.periodic_task(crontab(minute='0'))
 def add_on_the_hour():
     state['periodic'] = 'x'
+
 
 # define a command using the class
 class AddTask(QueueTask):
@@ -49,25 +52,31 @@ class AddTask(QueueTask):
         k, v = self.data
         state[k] = v
 
+
 # create a command that raises an exception
 class BampfException(Exception):
     pass
+
 
 @huey.task()
 def throw_error():
     raise BampfException('bampf')
 
+
 @res_huey.task()
 def add2(a, b):
     return a + b
+
 
 @res_huey.periodic_task(crontab(minute='0'))
 def add_on_the_hour2():
     state['periodic'] = 'x'
 
+
 @res_huey.task()
 def returns_none():
     return None
+
 
 @res_huey_nones.task()
 def returns_none2():
@@ -153,6 +162,7 @@ class HueyTestCase(unittest.TestCase):
         Verify that exceptions are wrapped with the special "huey"
         exception classes.
         """
+
         class SpecialException(Exception):
             pass
 
@@ -208,7 +218,7 @@ class HueyTestCase(unittest.TestCase):
             1)
 
     def test_dequeueing(self):
-        res = huey.dequeue() # no error raised if queue is empty
+        res = huey.dequeue()  # no error raised if queue is empty
         self.assertEqual(res, None)
 
         add('k', 'v')
@@ -289,9 +299,9 @@ class HueyTestCase(unittest.TestCase):
         self.assertFalse(add_on_the_hour2.is_revoked())
 
         add_on_the_hour2.revoke(revoke_once=True)
-        self.assertTrue(add_on_the_hour2.is_revoked()) # it is revoked once, but we are preserving that state
-        self.assertTrue(add_on_the_hour2.is_revoked(peek=False)) # is revoked once, but clear state
-        self.assertFalse(add_on_the_hour2.is_revoked()) # no longer revoked
+        self.assertTrue(add_on_the_hour2.is_revoked())  # it is revoked once, but we are preserving that state
+        self.assertTrue(add_on_the_hour2.is_revoked(peek=False))  # is revoked once, but clear state
+        self.assertFalse(add_on_the_hour2.is_revoked())  # no longer revoked
 
         d = datetime.datetime
         add_on_the_hour2.revoke(revoke_until=d(2011, 1, 1, 11, 0))

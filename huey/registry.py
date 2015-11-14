@@ -33,7 +33,7 @@ class TaskRegistry(object):
         klass_str = self.task_to_string(task_class)
 
         if klass_str in self._registry:
-            del(self._registry[klass_str])
+            del (self._registry[klass_str])
 
             for task in self._periodic_tasks:
                 if isinstance(task, task_class):

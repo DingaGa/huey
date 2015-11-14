@@ -19,6 +19,7 @@ class RabbitQueue(BaseQueue):
     """
     A simple Queue that uses the rabbit to store messages
     """
+
     def __init__(self, name, **connection):
         """
         connection = {

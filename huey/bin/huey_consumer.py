@@ -29,7 +29,7 @@ def setup_logger(loglevel, logfile):
 
     if logfile:
         handler = RotatingFileHandler(
-            logfile, maxBytes=1024*1024, backupCount=3)
+            logfile, maxBytes=1024 * 1024, backupCount=3)
         handler.setFormatter(logging.Formatter(log_format))
         logging.getLogger().addHandler(handler)
 

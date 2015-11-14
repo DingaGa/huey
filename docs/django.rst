@@ -24,7 +24,7 @@ Huey Settings
 -------------
 
 .. note::
-    Huey settings are optional.  If not provided, Huey will default to using
+Huey settings are optional.  If not provided, Huey will default to using
     Redis running locally.
 
 All configuration is kept in ``settings.HUEY``.  Here are some examples:

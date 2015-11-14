@@ -12,7 +12,7 @@ works, it is strongly recommended that **all decorated functions be imported whe
 the consumer starts up**.
 
 .. note::
-    If a task is not recognized, the consumer will throw a :py:class:`QueueException`
+If a task is not recognized, the consumer will throw a :py:class:`QueueException`
 
 The consumer is executed with a single required parameter -- the import path to
 a :py:class:`Huey` object.  It will import the object along with anything

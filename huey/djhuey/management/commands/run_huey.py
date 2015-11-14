@@ -4,6 +4,7 @@ from optparse import make_option
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
+
 try:
     from importlib import import_module
 except ImportError:
@@ -11,6 +12,7 @@ except ImportError:
 
 try:
     from django.apps import apps as django_apps
+
     HAS_DJANGO_APPS = True
 except ImportError:
     # Django 1.6
@@ -33,29 +35,29 @@ class Command(BaseCommand):
 
     option_list = BaseCommand.option_list + (
         make_option('--periodic', '-p',
-            dest='periodic',
-            action='store_true',
-            help='Enqueue periodic commands'
+                    dest='periodic',
+                    action='store_true',
+                    help='Enqueue periodic commands'
         ),
         make_option('--no-periodic', '-n',
-            dest='periodic',
-            action='store_false',
-            help='Do not enqueue periodic commands'
+                    dest='periodic',
+                    action='store_false',
+                    help='Do not enqueue periodic commands'
         ),
         make_option('--workers', '-w',
-            dest='workers',
-            type='int',
-            help='Number of worker threads'
+                    dest='workers',
+                    type='int',
+                    help='Number of worker threads'
         ),
         make_option('--delay', '-d',
-            dest='initial_delay',
-            type='float',
-            help='Delay between polling requests'
+                    dest='initial_delay',
+                    type='float',
+                    help='Delay between polling requests'
         ),
         make_option('--max_delay', '-m',
-            dest='max_delay',
-            type='float',
-            help='Maximum delay between polling requests'
+                    dest='max_delay',
+                    type='float',
+                    help='Maximum delay between polling requests'
         ),
     )
 
@@ -99,6 +101,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         from huey.djhuey import HUEY
+
         try:
             consumer_options = settings.HUEY['consumer_options']
         except:

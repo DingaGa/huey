@@ -28,17 +28,17 @@ Function decorators and helpers
 
     :param queue: a queue instance, e.g. :py:class:`RedisQueue`.
     :param result_store: a place to store results and the task schedule,
-        e.g. :py:class:`RedisDataStore`.
+            e.g. :py:class:`RedisDataStore`.
     :param schedule: scheduler implementation, e.g. an instance of :py:class:`RedisSchedule`.
     :param events: event emitter implementation, e.g. an instance of :py:class:`RedisEventEmitter`.
     :param boolean store_none: Flag to indicate whether tasks that return ``None``
         should store their results in the result store.
     :param always_eager: Useful for testing, this will execute all tasks
-        immediately, without enqueueing them.
+            immediately, without enqueueing them.
 
-    Example usage:
+        Example usage:
 
-    .. code-block:: python
+        .. code-block:: python
 
         from huey.api import Huey, crontab
         from huey.backends.redis_backend import RedisBlockingQueue, RedisDataStore,\
@@ -74,7 +74,7 @@ Function decorators and helpers
            using a result store.
 
         .. note::
-            Huey can be configured to execute the function immediately by
+Huey can be configured to execute the function immediately by
             instantiating it with ``always_eager = True`` -- this is useful for
             running in debug mode or when you do not wish to run the consumer.
 
@@ -115,15 +115,15 @@ Function decorators and helpers
             'Counted 1000000 beans'
 
         :param int retries: number of times to retry the task if an exception occurs
-        :param int retry_delay: number of seconds to wait between retries
-        :param boolean retries_as_argument: whether the number of retries should
-            be passed in to the decorated function as an argument.
-        :param boolean include_task: whether the task instance itself should be
-            passed in to the decorated function as the ``task`` argument.
+            :param int retry_delay: number of seconds to wait between retries
+            :param boolean retries_as_argument: whether the number of retries should
+                be passed in to the decorated function as an argument.
+            :param boolean include_task: whether the task instance itself should be
+                passed in to the decorated function as the ``task`` argument.
         :rtype: decorated function
 
-        The return value of any calls to the decorated function depends on whether
-        the :py:class:`Huey` instance is configured with a ``result_store``.  If a
+            The return value of any calls to the decorated function depends on whether
+            the :py:class:`Huey` instance is configured with a ``result_store``.  If a
         result store is configured, the decorated function will return
         an :py:class:`AsyncData` object which can fetch the result of the call from
         the result store -- otherwise it will simply return ``None``.
@@ -151,10 +151,10 @@ Function decorators and helpers
                 count_some_beans.schedule(args=(100000,), delay=(60 * 60))
 
             :param args: arguments to call the decorated function with
-            :param kwargs: keyword arguments to call the decorated function with
-            :param datetime eta: the time at which the function should be executed
-            :param int delay: number of seconds to wait before executing function
-            :param convert_utc: whether the ``eta`` should be converted from local
+                :param kwargs: keyword arguments to call the decorated function with
+                :param datetime eta: the time at which the function should be executed
+                :param int delay: number of seconds to wait before executing function
+                :param convert_utc: whether the ``eta`` should be converted from local
                                 time to UTC, defaults to ``True``
             :rtype: like calls to the decorated function, will return an :py:class:`AsyncData`
                     object if a result store is configured, otherwise returns ``None``
@@ -188,7 +188,7 @@ Function decorators and helpers
         consumer.
 
         .. note::
-            By default, the consumer will execute ``periodic_task`` functions. To
+By default, the consumer will execute ``periodic_task`` functions. To
             disable this, run the consumer with ``-n`` or ``--no-periodic``.
 
         The ``validate_datetime`` parameter is a function which accepts a datetime
@@ -217,7 +217,7 @@ Function decorators and helpers
                 print "It's been five minutes"
 
         .. note::
-            Because functions decorated with ``periodic_task`` are meant to be
+Because functions decorated with ``periodic_task`` are meant to be
             executed at intervals in isolation, they should not take any required
             parameters nor should they be expected to return a meaningful value.
             This is the same regardless of whether or not you are using a result store.
@@ -226,7 +226,7 @@ Function decorators and helpers
             a boolean whether the decorated function should execute at that time or not
         :rtype: decorated function
 
-        Like :py:meth:`~Huey.task`, the periodic task decorator adds several helpers
+            Like :py:meth:`~Huey.task`, the periodic task decorator adds several helpers
         to the decorated function.  These helpers allow you to "revoke" and "restore" the
         periodic task, effectively enabling you to pause it or prevent its execution.
 
@@ -239,7 +239,7 @@ Function decorators and helpers
             the limitations of the previous.
 
             :param datetime revoke_until: Prevent the execution of the task until the
-                given datetime.  If ``None`` it will prevent execution indefinitely.
+                    given datetime.  If ``None`` it will prevent execution indefinitely.
             :param bool revoke_once: If ``True`` will only prevent execution the next
                 time it would normally execute.
 
@@ -260,9 +260,9 @@ Function decorators and helpers
             it will check if the task is revoked for the given datetime.
 
             :param datetime dt: If provided, checks whether task is revoked at the
-                given datetime
+                    given datetime
 
-        .. py:function:: {decorated_func}.restore()
+            .. py:function:: {decorated_func}.restore()
 
             Clears any revoked status and run the task normally
 
@@ -344,13 +344,13 @@ AsyncData
         result is ready, a :py:class:`DataStoreTimeout` exception will be raised.
 
         :param blocking: boolean, whether to block while waiting for task result
-        :param timeout: number of seconds to block for (used with `blocking=True`)
+            :param timeout: number of seconds to block for (used with `blocking=True`)
         :param backoff: amount to backoff delay each time no result is found
-        :param max_delay: maximum amount of time to wait between iterations when
-            attempting to fetch result.
-        :param bool revoke_on_timeout: if a timeout occurs, revoke the task
+            :param max_delay: maximum amount of time to wait between iterations when
+                attempting to fetch result.
+            :param bool revoke_on_timeout: if a timeout occurs, revoke the task
 
-    .. py:method:: revoke()
+        .. py:method:: revoke()
 
         Revoke the given task.  Unless it is in the process of executing, it will
         be revoked and the task will not run.
@@ -398,9 +398,9 @@ Base classes
     when instantiating this class.
 
     :param name: A string representation of the name for this queue
-    :param connection: Connection parameters for the queue
+        :param connection: Connection parameters for the queue
 
-    .. py:attribute:: blocking = False
+        .. py:attribute:: blocking = False
 
         Whether the backend blocks when waiting for new results.  If set to ``False``,
         the backend will be polled at intervals, if ``True`` it will read and wait.
@@ -411,7 +411,7 @@ Base classes
 
         :param data: a string
 
-    .. py:method:: read()
+        .. py:method:: read()
 
         Read data from the queue, returning None if no data is available --
         an empty queue should not raise an Exception!
@@ -423,9 +423,9 @@ Base classes
         Remove all instances of given data from queue, returning number removed
 
         :param string data:
-        :rtype: number of instances removed
+            :rtype: number of instances removed
 
-    .. py:method:: flush()
+        .. py:method:: flush()
 
         Optional: Delete everything in the queue -- used by tests
 
@@ -439,9 +439,9 @@ Base classes
     when instantiating this class.
 
     :param name: A string representation of the name for this data store
-    :param connection: Connection parameters for the data store
+        :param connection: Connection parameters for the data store
 
-    .. py:method:: put(key, value)
+        .. py:method:: put(key, value)
 
         Store the ``value`` using the ``key`` as the identifier
 
@@ -500,14 +500,14 @@ written by Andy McCurdy.
     Does a simple ``RPOP`` to pull messages from the queue, meaning that it polls.
 
     :param name: the name of the queue to use
-    :param connection: a list of values passed directly into the ``redis.Redis`` class
+        :param connection: a list of values passed directly into the ``redis.Redis`` class
 
 .. py:class:: RedisBlockingQueue(name, read_timeout=None, **connection)
 
     Does a ``BRPOP`` to pull messages from the queue, meaning that it blocks on reads. By default Huey will block forever waiting for a message, but if you want, you can specify a timeout in seconds. This may prevent the consumer from getting hung waiting on tasks in the event of network disruptions or similar quirks.
 
     :param name: the name of the queue to use
-    :param int read_timeout: limit blocking pop to ``read_timeout`` seconds.
+        :param int read_timeout: limit blocking pop to ``read_timeout`` seconds.
     :param connection: a list of values passed directly into the ``redis.Redis`` class
 
 .. py:class:: RedisDataStore(name, **connection)
@@ -515,18 +515,18 @@ written by Andy McCurdy.
     Stores results in a redis hash using ``HSET``, ``HGET`` and ``HDEL``
 
     :param name: the name of the data store to use
-    :param connection: a list of values passed directly into the ``redis.Redis`` class
+        :param connection: a list of values passed directly into the ``redis.Redis`` class
 
 .. py:class:: RedisSchedule(name, **connection)
 
     Uses sorted sets to efficiently manage a schedule of timestamped tasks.
 
     :param name: the name of the data store to use
-    :param connection: a list of values passed directly into the ``redis.Redis`` class
+        :param connection: a list of values passed directly into the ``redis.Redis`` class
 
  .. py:class:: RedisEventEmitter(channel, **connection)
 
     Uses Redis pubsub to emit json-serialized updates about tasks in real-time.
 
     :param channel: the channel to send messages on.
-    :param connection: values passed directly to the ``redis.Redis`` class.
+        :param connection: values passed directly to the ``redis.Redis`` class.

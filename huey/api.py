@@ -64,6 +64,7 @@ class Huey(object):
             # do a backup every day at 3am
             return
     """
+
     def __init__(self, queue, result_store=None, schedule=None, events=None,
                  store_none=False, always_eager=False):
         self.queue = queue
@@ -118,12 +119,14 @@ class Huey(object):
 
             inner_run.call_local = func
             return inner_run
+
         return decorator
 
     def periodic_task(self, validate_datetime, name=None):
         """
         Decorator to execute a function on a specific schedule.
         """
+
         def decorator(func):
             def method_validate(self, dt):
                 return validate_datetime(dt)
@@ -139,17 +142,21 @@ class Huey(object):
 
             def _revoke(revoke_until=None, revoke_once=False):
                 self.revoke(klass(), revoke_until, revoke_once)
+
             func.revoke = _revoke
 
             def _is_revoked(dt=None, peek=True):
                 return self.is_revoked(klass(), dt, peek)
+
             func.is_revoked = _is_revoked
 
             def _restore():
                 return self.restore(klass())
+
             func.restore = _restore
 
             return func
+
         return decorator
 
     def _wrapped_operation(exc_class):
@@ -159,7 +166,9 @@ class Huey(object):
                     return fn(*args, **kwargs)
                 except:
                     wrap_exception(exc_class)
+
             return inner
+
         return decorator
 
     @_wrapped_operation(QueueWriteException)
@@ -441,8 +450,10 @@ def create_task(task_class, func, retries_as_argument=False, task_name=None,
 
     return klass
 
+
 dash_re = re.compile('(\d+)-(\d+)')
 every_re = re.compile('\*\/(\d+)')
+
 
 def crontab(month='*', day='*', day_of_week='*', hour='*', minute='*'):
     """
@@ -488,7 +499,7 @@ def crontab(month='*', day='*', day_of_week='*', hour='*', minute='*'):
                     lhs, rhs = map(int, dash_match.groups())
                     if lhs not in acceptable or rhs not in acceptable:
                         raise ValueError('%s is not a valid input' % piece)
-                    settings.update(range(lhs, rhs+1))
+                    settings.update(range(lhs, rhs + 1))
                     continue
 
                 every_match = every_re.match(piece)

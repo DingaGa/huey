@@ -14,6 +14,7 @@ from huey.utils import EmptyData
 from huey.backends.sqlite_backend import SqliteDataStore
 from huey.backends.sqlite_backend import SqliteQueue
 from huey.backends.sqlite_backend import SqliteSchedule
+
 try:
     from huey.backends.redis_backend import RedisDataStore
     from huey.backends.redis_backend import RedisEventEmitter
@@ -27,12 +28,10 @@ try:
 except ImportError:
     RabbitQueue = RabbitEventEmitter = None
 
-
 if sys.version_info[0] == 2:
     redis_kwargs = {}
 else:
     redis_kwargs = {'decode_responses': True}
-
 
 QUEUES = (DummyQueue, RedisQueue, SqliteQueue, RabbitQueue)
 DATA_STORES = (DummyDataStore, RedisDataStore, SqliteDataStore, None)
